@@ -37,6 +37,7 @@ var paddleWidth = 75;
 var paddleX = (canvas.width - paddleWidth) / 2;
 var rightPressed = false;
 var leftPressed = false;
+var isGameOver = false;
 
 function getRandomRGB() {
     var rgb = [];
@@ -73,7 +74,6 @@ function drawBall() {
     ctx.fillStyle = currentColor;
     ctx.fill();
     ctx.closePath();
-
 }
 
 function drawPaddle() {
@@ -93,9 +93,19 @@ function draw() {
         dx = -dx;
         currentColor = getRandomRGB();
     }
-    if (y + dy < 0 + ballRadius || y + dy > canvas.height - ballRadius) {
+    if (y + dy < 0 + ballRadius) {
         dy = -dy;
         currentColor = getRandomRGB();
+    }
+    else if (y + dy > canvas.height - ballRadius) {
+        if (x > paddleX && x < paddleX + paddleWidth) {
+            dy = -dy;
+        }
+        else if (!isGameOver) {
+            alert('GAME OVER');
+            isGameOver = true;
+            document.location.reload();
+        }
     }
 
     if (rightPressed && paddleX < (canvas.width - paddleWidth)) {
