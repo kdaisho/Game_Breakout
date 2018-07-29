@@ -14,6 +14,7 @@
             background: #eee;
             display: block;
             margin: 0 auto;
+            touch-action: none;
         }
     </style>
 </head>
@@ -58,6 +59,15 @@ for (var c = 0; c < brickColumnCount; c++) {
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('mousemove', mouseMoveHandler, false);
+document.addEventListener('touchstart', touchHandler, false);
+document.addEventListener('touchmove', touchHandler, false);
+
+function touchHandler(event) {
+    if (event.touches) {
+        paddleX = event.touches[0].pageX - canvas.offsetLeft - paddleWidth / 2;
+        event.preventDefault();
+    }
+}
 
 function mouseMoveHandler(event) {
     var relativeX = event.clientX - canvas.offsetLeft;
